@@ -1,0 +1,28 @@
+services:
+  tautulli-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tautulli-mcp
+    ports:
+      - "${TAUTULLI_MCP_PORT:-9156}:${TAUTULLI_MCP_PORT:-9156}"
+    env_file:
+      - .env
+    volumes:
+      - tautulli-logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6976/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - tautulli-mcp-network
+
+volumes:
+  tautulli-logs:
+
+networks:
+  tautulli-mcp-network:
+    driver: bridge 
