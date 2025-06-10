@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: tautulli-mcp
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
     ports:
       - "${TAUTULLI_MCP_PORT:-9156}:${TAUTULLI_MCP_PORT:-9156}"
     env_file:
